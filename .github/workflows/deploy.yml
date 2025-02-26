@@ -3,7 +3,7 @@ name: Deploy to OpenShift
 on:
   push:
     branches:
-      - main  # Change this if you're using another branch
+      - main
 
 jobs:
   deploy:
@@ -12,6 +12,13 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v3
+
+      - name: Install OpenShift CLI
+        run: |
+          curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz
+          tar -xvzf oc.tar.gz
+          chmod +x oc
+          sudo mv oc /usr/local/bin/
 
       - name: Login to OpenShift
         run: |

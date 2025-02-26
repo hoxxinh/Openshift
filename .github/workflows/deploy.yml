@@ -3,7 +3,7 @@ name: Deploy to OpenShift
 on:
   push:
     branches:
-      - main
+      - main  # Change this if needed
 
 jobs:
   deploy:
@@ -22,7 +22,10 @@ jobs:
 
       - name: Login to OpenShift
         run: |
-          echo ${{ secrets.OPENSHIFT_TOKEN }}
+          oc login --token=${{ secrets.OPENSHIFT_TOKEN }} --server=https://api.rm2.thpm.p1.openshiftapps.com:6443 --insecure-skip-tls-verify=true
+
+      - name: Set KUBECONFIG
+        run: echo "KUBECONFIG=$HOME/.kube/config" >> $GITHUB_ENV
 
       - name: Start Build and Deploy
         run: |

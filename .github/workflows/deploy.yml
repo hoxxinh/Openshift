@@ -22,7 +22,7 @@ jobs:
 
       - name: Login to OpenShift
         run: |
-          echo ${{ secrets.OPENSHIFT_TOKEN }} | oc login --token=- --server=https://api.rm2.thpm.p1.openshiftapps.com:6443
+          echo ${{ secrets.OPENSHIFT_TOKEN }}
 
       - name: Start Build and Deploy
         run: |

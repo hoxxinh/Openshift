@@ -1,0 +1,31 @@
+name: Deploy to OpenShift
+
+on:
+  push:
+    branches:
+      - main  # Deploy on push to main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up OpenShift CLI
+        run: |
+          curl -LO https://mirror.openshift.com/pub/openshift-v4/clients/oc/latest/linux/oc.tar.gz
+          tar -xvf oc.tar.gz
+          chmod +x oc
+          sudo mv oc /usr/local/bin/
+
+      - name: Login to OpenShift
+        run: |
+          oc login --server=${{ secrets.OPENSHIFT_SERVER }} --token=${{ secrets.OPENSHIFT_TOKEN }}
+
+      - name: Deploy to OpenShift
+        run: |
+          oc project nodejs-app
+          oc start-build node-server --follow || oc new-app nodejs~https://github.com/hoxxinh/Openshift.git --name=node-server
+          oc expose svc/node-server || true

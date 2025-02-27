@@ -35,4 +35,4 @@ jobs:
       - name: Trigger Deployment
         run: |
           # Trigger a new deployment using the latest image
-          oc rollout latest dc/openshift-git -n tnguyen138-dev
+          oc apply -f deployment.yaml -n tnguyen138-dev

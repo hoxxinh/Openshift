@@ -3,6 +3,10 @@ kind: DeploymentConfig
 metadata:
   name: openshift-git
   namespace: tnguyen138-dev
+  labels:
+    app: openshift-git
+    app.kubernetes.io/name: openshift-git
+    app.kubernetes.io/instance: openshift-git
 spec:
   replicas: 1
   selector:
@@ -11,6 +15,8 @@ spec:
     metadata:
       labels:
         app: openshift-git
+        app.kubernetes.io/name: openshift-git
+        app.kubernetes.io/instance: openshift-git
     spec:
       containers:
         - name: openshift-git

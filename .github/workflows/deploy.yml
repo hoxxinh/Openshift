@@ -35,4 +35,4 @@ jobs:
       - name: Trigger Deployment
         run: |
           # Trigger a new deployment using the latest image
-          oc apply -f deployment.yaml -n tnguyen138-dev
+          oc apply -f .github/workflows/deployment.yaml -n tnguyen138-dev

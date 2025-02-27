@@ -1,0 +1,20 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openshift-git
+  namespace: tnguyen138-dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openshift-git
+  template:
+    metadata:
+      labels:
+        app: openshift-git
+    spec:
+      containers:
+        - name: openshift-git
+          image: image-registry.openshift-image-registry.svc:5000/tnguyen138-dev/openshift-git:latest
+          ports:
+            - containerPort: 8080

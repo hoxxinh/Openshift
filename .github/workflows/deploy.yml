@@ -32,6 +32,7 @@ jobs:
           oc project tnguyen138-dev
           oc start-build openshift-git --follow
 
-      - name: Update Deployment
+      - name: Trigger Deployment
         run: |
-          oc rollout latest dc/openshift-git
+          # Restart the deployment to use the latest image
+          oc rollout restart deployment/openshift-git -n tnguyen138-dev

@@ -22,5 +22,6 @@ spec:
       containers:
         - name: openshift-git
           image: image-registry.openshift-image-registry.svc:5000/tnguyen138-dev/openshift-git:latest
+          imagePullPolicy: Always
           ports:
             - containerPort: 8080

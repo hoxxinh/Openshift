@@ -1,0 +1,29 @@
+apiVersion: apps.openshift.io/v1
+kind: DeploymentConfig
+metadata:
+  name: openshift-git
+  namespace: tnguyen138-dev
+spec:
+  replicas: 1
+  selector:
+    app: openshift-git
+  template:
+    metadata:
+      labels:
+        app: openshift-git
+    spec:
+      containers:
+        - name: openshift-git
+          image: image-registry.openshift-image-registry.svc:5000/tnguyen138-dev/openshift-git:latest
+          ports:
+            - containerPort: 8080
+  triggers:
+    - type: ConfigChange
+    - type: ImageChange
+      imageChangeParams:
+        automatic: true
+        containerNames:
+          - openshift-git
+        from:
+          kind: ImageStreamTag
+          name: openshift-git:latest

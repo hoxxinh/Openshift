@@ -32,10 +32,14 @@ jobs:
           oc project tnguyen138-dev
           oc start-build openshift-git --follow
 
+      - name: Get Latest Image Tag
+        id: get-image-tag
+        run: |
+          IMAGE_TAG=$(oc get istag openshift-git:latest -o jsonpath='{.image.dockerImageReference}' | awk -F '@' '{print $2}')
+          echo "Latest image tag: $IMAGE_TAG"
+          echo "::set-output name=image_tag::$IMAGE_TAG"
+
       - name: Trigger Deployment
         run: |
-          # Get the latest image tag from the build
-          IMAGE_TAG=$(oc get istag openshift-git:latest -o jsonpath='{.image.dockerImageReference}' | awk -F '@' '{print $2}')
-
-          # Patch the deployment to use the latest image
-          oc patch dc/openshift-git -n tnguyen138-dev -p '{"spec":{"template":{"spec":{"containers":[{"name":"openshift-git","image":"image-registry.openshift-image-registry.svc:5000/tnguyen138-dev/openshift-git@'"$IMAGE_TAG"'"}]}}}}'
+          # Patch the DeploymentConfig to use the latest image
+          oc patch dc/openshift-git -n tnguyen138-dev -p '{"spec":{"template":{"spec":{"containers":[{"name":"openshift-git","image":"image-registry.openshift-image-registry.svc:5000/tnguyen138-dev/openshift-git@'"${{ steps.get-image-tag.outputs.image_tag }}"'}]}}}}'

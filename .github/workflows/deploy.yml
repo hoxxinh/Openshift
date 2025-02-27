@@ -34,5 +34,5 @@ jobs:
 
       - name: Trigger Deployment
         run: |
-          # Patch the Deployment to use the latest image
-          oc patch deployment/openshift-git -n tnguyen138-dev -p '{"spec":{"template":{"spec":{"containers":[{"name":"openshift-git","image":"image-registry.openshift-image-registry.svc:5000/tnguyen138-dev/openshift-git@'"${{ steps.get-image-tag.outputs.image_tag }}"'}]}}}}'
+          # Trigger a new deployment using the latest image
+          oc rollout latest dc/openshift-git -n tnguyen138-dev
